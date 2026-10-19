@@ -75,14 +75,109 @@
   .links a:hover { opacity: 0.85; }
   footer { text-align: center; color: var(--muted); font-size: 0.9rem; padding: 24px 16px 40px; }
   footer a { color: var(--accent); }
+
+  /* ---- Typing heading ---- */
+  #typed { color: #ffe27a; }
+  .cursor {
+    display: inline-block;
+    margin-left: 2px;
+    animation: blink 0.8s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ---- Profile card ---- */
+  .profile {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+    padding: 14px 22px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    text-align: left;
+  }
+  .avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: #fff;
+    color: #4a3cc9;
+    font-weight: 700; font-size: 1.3rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .name { font-weight: 700; font-size: 1.1rem; }
+  .role { font-size: 0.9rem; opacity: 0.85; }
+  .socials { margin-top: 6px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .socials a {
+    color: #fff; text-decoration: none;
+    font-size: 0.8rem; font-weight: 600;
+    padding: 3px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 999px;
+  }
+  .socials a:hover { background: #fff; color: #4a3cc9; }
+
+  /* ---- Architecture strip on each card ---- */
+  .arch {
+    background: var(--bg);
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+  }
+  .arch-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .pipeline { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .node {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-size: 0.78rem;
+    line-height: 1.3;
+  }
+  .node .dec {
+    display: block;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+  }
+  .card.crew .node .dec { color: var(--accent); }
+  .card.flow .node .dec { color: var(--flow); }
+  .node .who { display: block; font-size: 0.68rem; color: var(--muted); }
+  .branch {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-left: 8px;
+    border-left: 2px solid var(--flow);
+  }
+  .arrow { color: var(--muted); font-size: 0.85rem; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>CrewAI Projects</h1>
+  <h1>Building <span id="typed"></span><span class="cursor">|</span></h1>
   <p>10 multi-agent AI projects built with CrewAI on Google Colab, as part of the Agentic AI course.</p>
-  <div class="meta">Chiluka Kavya &middot; MCA, VNRVJIET</div>
+  <div class="profile">
+    <div class="avatar">CK</div>
+    <div class="profile-info">
+      <div class="name">Chiluka Kavya</div>
+      <div class="role">MCA Student · VNRVJIET (2025–27)</div>
+      <div class="socials">
+        <a href="https://github.com/Kavyasagar69" target="_blank">GitHub</a>
+        <a href="https://www.linkedin.com/in/kavya-chiluka-b51974383/" target="_blank">LinkedIn</a>
+        <a href="mailto:chilukakavyasagar@gmail.com">Email</a>
+      </div>
+    </div>
+  </div>
 </header>
 
 <main>
@@ -102,37 +197,132 @@
 <script>
   const REPO = "Kavyasagar69/crewai-projects";
 
+  // Each project: basic info + "arch" = its real structure, taken from the notebook.
+  //   crews: arch.steps = the agents, in order
+  //   flows: arch.steps = the flow methods; { branch: [...] } = a @router choosing ONE path
   const projects = [
-    { n: 1,  type: "crew", title: "Blog Post Writer",     file: "BlogPostCrew_1.ipynb",
-      desc: "Agents research a topic and write a structured blog post." },
-    { n: 2,  type: "crew", title: "Competitor Analysis",  file: "CompetitorAnalysisCrew_2.ipynb",
-      desc: "Agents gather information on competitors and compare them." },
-    { n: 3,  type: "crew", title: "Meeting Notes",        file: "MeetingNotesCrew_3.ipynb",
-      desc: "Agents turn a meeting transcript into clear notes and action items." },
-    { n: 4,  type: "crew", title: "Data Report",          file: "DataReportCrew_4.ipynb",
-      desc: "Agents analyse a dataset and write a summary report." },
-    { n: 5,  type: "flow", title: "Customer Support",     file: "CustomerSupportFlow_5.ipynb",
-      desc: "A flow that reads a customer query, classifies it and drafts a reply." },
-    { n: 6,  type: "flow", title: "Resume Screening",     file: "ResumeScreeningFlow_6.ipynb",
-      desc: "A flow that compares resumes against a job description and ranks them." },
-    { n: 7,  type: "flow", title: "Bug Triage",           file: "BugTriageFlow_7.ipynb",
-      desc: "A flow that reads bug reports, sets priority and routes them." },
-    { n: 8,  type: "flow", title: "Content Repurposing",  file: "ContentRepurposingFlow_8.ipynb",
-      desc: "A flow that turns one article into posts for different platforms." },
-    { n: 9,  type: "flow", title: "Lead Qualification",   file: "LeadQualificationFlow_9.ipynb",
-      desc: "A flow that scores sales leads and decides the next action." },
-    { n: 10, type: "flow", title: "Approval Report",      file: "ApprovalReportFlow_10.ipynb",
-      desc: "A flow that reviews a request and produces an approval report." }
+    { n: 1, type: "crew", title: "Blog Post Writer", file: "BlogPostCrew_1.ipynb",
+      desc: "Researches a topic with web search, writes a blog post on it, then edits it for clarity.",
+      arch: { label: "Process.sequential", steps: [
+        { d: "Agent", s: "Senior Research Analyst" },
+        { d: "Agent", s: "Blog Writer" },
+        { d: "Agent", s: "Editor" } ] } },
+
+    { n: 2, type: "crew", title: "Competitor Analysis", file: "CompetitorAnalysisCrew_2.ipynb",
+      desc: "Scrapes competitor websites, compares pricing, tracks news, and ends with a SWOT analysis.",
+      arch: { label: "Process.hierarchical (manager delegates)", steps: [
+        { d: "Agent", s: "Website Scraper" },
+        { d: "Agent", s: "Pricing Analyst" },
+        { d: "Agent", s: "News Analyst" },
+        { d: "Agent", s: "Strategist", who: "SWOT" } ] } },
+
+    { n: 3, type: "crew", title: "Meeting Notes", file: "MeetingNotesCrew_3.ipynb",
+      desc: "Turns a meeting transcript into a summary, action items, a decision log and formatted notes.",
+      arch: { label: "Process.sequential", steps: [
+        { d: "Agent", s: "Meeting Summarizer" },
+        { d: "Agent", s: "Action Item Tracker" },
+        { d: "Agent", s: "Decision Logger" },
+        { d: "Agent", s: "Notes Formatter" } ] } },
+
+    { n: 4, type: "crew", title: "Data Report", file: "DataReportCrew_4.ipynb",
+      desc: "Analyses sales data with a custom stats tool, writes insights from it, and reviews the report.",
+      arch: { label: "Process.sequential", steps: [
+        { d: "Agent", s: "Data Analyst", who: "sales_stats_tool" },
+        { d: "Agent", s: "Insight Writer" },
+        { d: "Agent", s: "Report Reviewer" } ] } },
+
+    { n: 5, type: "flow", title: "Customer Support", file: "CustomerSupportFlow_5.ipynb",
+      desc: "Receives a ticket, categorises it, routes it to the right handler, and resolves it.",
+      arch: { label: "SupportFlow", steps: [
+        { d: "@start", s: "receive_ticket" },
+        { d: "@listen", s: "categorize_ticket" },
+        { branch: [
+          { d: "@router →", s: "billing" },
+          { d: "@router →", s: "account_access" },
+          { d: "@router →", s: "refund" },
+          { d: "@router →", s: "other" } ] },
+        { d: "@listen(or_)", s: "resolve_ticket" } ] } },
+
+    { n: 6, type: "flow", title: "Resume Screening", file: "ResumeScreeningFlow_6.ipynb",
+      desc: "Scores a resume, then either shortlists it with a recruiter summary or drafts a rejection.",
+      arch: { label: "ResumeFlow", steps: [
+        { d: "@start", s: "load_resume" },
+        { d: "@listen", s: "score_resume" },
+        { branch: [
+          { d: "@router →", s: "shortlist", who: "Technical Recruiter" },
+          { d: "@router →", s: "reject", who: "draft_rejection" } ] },
+        { d: "@listen(or_)", s: "save_results" } ] } },
+
+    { n: 7, type: "flow", title: "Bug Triage", file: "BugTriageFlow_7.ipynb",
+      desc: "Reads an issue, classifies it as a bug, feature or question, and sends it to the right agent.",
+      arch: { label: "TriageFlow", steps: [
+        { d: "@start", s: "read_issue" },
+        { d: "@listen", s: "classify_issue" },
+        { branch: [
+          { d: "@router →", s: "bug", who: "QA Engineer" },
+          { d: "@router →", s: "feature", who: "Product Manager" },
+          { d: "@router →", s: "question", who: "Support Agent" } ] },
+        { d: "@listen(or_)", s: "post_reply" } ] } },
+
+    { n: 8, type: "flow", title: "Content Repurposing", file: "ContentRepurposingFlow_8.ipynb",
+      desc: "Extracts key points from one article and writes LinkedIn, Twitter and newsletter versions in parallel.",
+      arch: { label: "RepurposeFlow (parallel)", steps: [
+        { d: "@start", s: "load_article" },
+        { d: "@listen", s: "extract_points" },
+        { branch: [
+          { d: "@listen ∥", s: "write_linkedin" },
+          { d: "@listen ∥", s: "write_twitter" },
+          { d: "@listen ∥", s: "write_newsletter" } ] },
+        { d: "@listen(and_)", s: "publish_pack" } ] } },
+
+    { n: 9, type: "flow", title: "Lead Qualification", file: "LeadQualificationFlow_9.ipynb",
+      desc: "Researches a lead's website, scores it hot, warm or cold, and takes the matching next step.",
+      arch: { label: "LeadFlow", steps: [
+        { d: "@start", s: "capture_lead" },
+        { d: "@listen", s: "enrich_lead", who: "Business Researcher" },
+        { branch: [
+          { d: "@router →", s: "hot", who: "send_outreach" },
+          { d: "@router →", s: "warm", who: "add_to_nurture" },
+          { d: "@router →", s: "cold", who: "archive_lead" } ] },
+        { d: "@listen(or_)", s: "log_lead" } ] } },
+
+    { n: 10, type: "flow", title: "Approval Report", file: "ApprovalReportFlow_10.ipynb",
+      desc: "Researches and drafts a report, pauses for human review, and loops through revisions until approved.",
+      arch: { label: "ReportFlow (human-in-the-loop)", steps: [
+        { d: "@start", s: "collect_topic" },
+        { d: "@listen", s: "research" },
+        { d: "@listen", s: "write_report" },
+        { d: "@human_feedback", s: "review_draft" },
+        { branch: [
+          { d: "approved →", s: "publish_report" },
+          { d: "revise →", s: "revise_report", who: "loops back to review" } ] } ] } }
   ];
+
+  // One small box in the strip
+  function node(x) {
+    return `<div class="node"><span class="dec">${x.d}</span>${x.s}${x.who ? `<span class="who">${x.who}</span>` : ""}</div>`;
+  }
+
+  // The whole strip: boxes joined by arrows; a branch stacks its options vertically
+  function arch(a) {
+    const parts = a.steps.map(st =>
+      st.branch ? `<div class="branch">${st.branch.map(node).join("")}</div>` : node(st));
+    return `
+      <div class="arch">
+        <div class="arch-label">${a.label}</div>
+        <div class="pipeline">${parts.join('<span class="arrow">→</span>')}</div>
+      </div>`;
+  }
 
   function card(p) {
     const gh = `https://github.com/${REPO}/blob/main/${p.file}`;
     const colab = `https://colab.research.google.com/github/${REPO}/blob/main/${p.file}`;
     return `
-      <div class="card">
+      <div class="card ${p.type}">
         <span class="tag ${p.type}">${p.type === "crew" ? "Crew" : "Flow"} &middot; Project ${p.n}</span>
         <h3>${p.title}</h3>
         <p>${p.desc}</p>
+        ${arch(p.arch)}
         <div class="links">
           <a class="btn-gh" href="${gh}" target="_blank" rel="noopener">View on GitHub</a>
           <a class="btn-colab" href="${colab}" target="_blank" rel="noopener">Open in Colab</a>
@@ -144,6 +334,24 @@
     projects.filter(p => p.type === "crew").map(card).join("");
   document.getElementById("flows").innerHTML =
     projects.filter(p => p.type === "flow").map(card).join("");
+
+  // ---- Typing heading ----
+  const words = ["CrewAI Projects", "Multi-Agent Systems", "AI Workflows", "Smart Automations"];
+  let w = 0, c = 0, deleting = false;
+  function type() {
+    const word = words[w];
+    document.getElementById("typed").textContent = word.slice(0, c);
+    if (!deleting && c < word.length) c++;
+    else if (deleting && c > 0) c--;
+    else {
+      deleting = !deleting;
+      if (!deleting) w = (w + 1) % words.length;
+      setTimeout(type, deleting ? 1500 : 300);
+      return;
+    }
+    setTimeout(type, deleting ? 50 : 100);
+  }
+  type();
 </script>
 
 </body>
