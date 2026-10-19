@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrewAI Projects | Chiluka Kavya</title>
+<style>
+  :root {
+    --bg: #f6f7fb;
+    --card: #ffffff;
+    --text: #1f2330;
+    --muted: #5d6475;
+    --accent: #5b4bdb;
+    --accent-soft: #ece9ff;
+    --flow: #0f8a6c;
+    --flow-soft: #e2f6f0;
+    --border: #e3e5ee;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header {
+    background: linear-gradient(135deg, #4a3cc9, #7b6cf0);
+    color: #fff;
+    padding: 56px 20px 48px;
+    text-align: center;
+  }
+  header h1 { font-size: 2.2rem; margin-bottom: 8px; }
+  header p { opacity: 0.92; max-width: 640px; margin: 0 auto; }
+  .meta { margin-top: 16px; font-size: 0.95rem; opacity: 0.85; }
+  main { max-width: 1100px; margin: 0 auto; padding: 40px 16px 60px; }
+  h2 { font-size: 1.4rem; margin: 32px 0 6px; }
+  .section-note { color: var(--muted); margin-bottom: 18px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(40, 40, 90, 0.08); }
+  .tag {
+    align-self: flex-start;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .tag.crew { background: var(--accent-soft); color: var(--accent); }
+  .tag.flow { background: var(--flow-soft); color: var(--flow); }
+  .card h3 { font-size: 1.1rem; margin-bottom: 6px; }
+  .card p { color: var(--muted); font-size: 0.95rem; flex-grow: 1; margin-bottom: 16px; }
+  .links { display: flex; gap: 10px; flex-wrap: wrap; }
+  .links a {
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 8px;
+  }
+  .btn-gh { background: var(--text); color: #fff; }
+  .btn-colab { background: #fff; color: var(--text); border: 1px solid var(--border); }
+  .links a:hover { opacity: 0.85; }
+  footer { text-align: center; color: var(--muted); font-size: 0.9rem; padding: 24px 16px 40px; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>CrewAI Projects</h1>
+  <p>10 multi-agent AI projects built with CrewAI on Google Colab, as part of the Agentic AI course.</p>
+  <div class="meta">Chiluka Kavya &middot; MCA, VNRVJIET</div>
+</header>
+
+<main>
+  <h2>Crews</h2>
+  <p class="section-note">A team of AI agents, each with its own role, working together on one task.</p>
+  <div class="grid" id="crews"></div>
+
+  <h2>Flows</h2>
+  <p class="section-note">Step-by-step pipelines where each stage passes its result to the next.</p>
+  <div class="grid" id="flows"></div>
+</main>
+
+<footer>
+  All source notebooks: <a href="https://github.com/Kavyasagar69/crewai-projects">github.com/Kavyasagar69/crewai-projects</a>
+</footer>
+
+<script>
+  const REPO = "Kavyasagar69/crewai-projects";
+
+  const projects = [
+    { n: 1,  type: "crew", title: "Blog Post Writer",     file: "BlogPostCrew_1.ipynb",
+      desc: "Agents research a topic and write a structured blog post." },
+    { n: 2,  type: "crew", title: "Competitor Analysis",  file: "CompetitorAnalysisCrew_2.ipynb",
+      desc: "Agents gather information on competitors and compare them." },
+    { n: 3,  type: "crew", title: "Meeting Notes",        file: "MeetingNotesCrew_3.ipynb",
+      desc: "Agents turn a meeting transcript into clear notes and action items." },
+    { n: 4,  type: "crew", title: "Data Report",          file: "DataReportCrew_4.ipynb",
+      desc: "Agents analyse a dataset and write a summary report." },
+    { n: 5,  type: "flow", title: "Customer Support",     file: "CustomerSupportFlow_5.ipynb",
+      desc: "A flow that reads a customer query, classifies it and drafts a reply." },
+    { n: 6,  type: "flow", title: "Resume Screening",     file: "ResumeScreeningFlow_6.ipynb",
+      desc: "A flow that compares resumes against a job description and ranks them." },
+    { n: 7,  type: "flow", title: "Bug Triage",           file: "BugTriageFlow_7.ipynb",
+      desc: "A flow that reads bug reports, sets priority and routes them." },
+    { n: 8,  type: "flow", title: "Content Repurposing",  file: "ContentRepurposingFlow_8.ipynb",
+      desc: "A flow that turns one article into posts for different platforms." },
+    { n: 9,  type: "flow", title: "Lead Qualification",   file: "LeadQualificationFlow_9.ipynb",
+      desc: "A flow that scores sales leads and decides the next action." },
+    { n: 10, type: "flow", title: "Approval Report",      file: "ApprovalReportFlow_10.ipynb",
+      desc: "A flow that reviews a request and produces an approval report." }
+  ];
+
+  function card(p) {
+    const gh = `https://github.com/${REPO}/blob/main/${p.file}`;
+    const colab = `https://colab.research.google.com/github/${REPO}/blob/main/${p.file}`;
+    return `
+      <div class="card">
+        <span class="tag ${p.type}">${p.type === "crew" ? "Crew" : "Flow"} &middot; Project ${p.n}</span>
+        <h3>${p.title}</h3>
+        <p>${p.desc}</p>
+        <div class="links">
+          <a class="btn-gh" href="${gh}" target="_blank" rel="noopener">View on GitHub</a>
+          <a class="btn-colab" href="${colab}" target="_blank" rel="noopener">Open in Colab</a>
+        </div>
+      </div>`;
+  }
+
+  document.getElementById("crews").innerHTML =
+    projects.filter(p => p.type === "crew").map(card).join("");
+  document.getElementById("flows").innerHTML =
+    projects.filter(p => p.type === "flow").map(card).join("");
+</script>
+
+</body>
+</html>
